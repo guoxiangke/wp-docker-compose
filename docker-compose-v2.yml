@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+    wordpress:
+        image: wordpress
+        restart: always
+        volumes:
+          - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+          - ./wp-content:/var/www/html/wp-content
+        links:
+          - db:mysql
+        network_mode: "bridge"
+        environment:
+          - WORDPRESS_DB_HOST=mysql
+          - WORDPRESS_DB_USER=wp
+          - WORDPRESS_DB_PASSWORD=wp
+          - WORDPRESS_DB_NAME=wp
+          - VIRTUAL_HOST=dv.qq2.yongbuzhixi.com
+          - LETSENCRYPT_HOST=dv.qq2.yongbuzhixi.com
+          - LETSENCRYPT_EMAIL=dale.tel@139.com
+    db:
+      image: mariadb
+      restart: always
+      network_mode: "bridge"
+      volumes:
+        - "./dbdata:/var/lib/mysql"
+      environment:
+        - MYSQL_USER=wp
+        - MYSQL_PASSWORD=wp
+        - MYSQL_DATABASE=wp
+        - MYSQL_ROOT_PASSWORD=wp
