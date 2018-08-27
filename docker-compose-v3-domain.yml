@@ -5,6 +5,7 @@ services:
      image: mariadb:latest
      volumes:
        - db_data:/var/lib/mysql
+       - ./sql:/sql
      restart: always
      network_mode: "bridge"
      environment:
@@ -13,27 +14,21 @@ services:
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: wordpress
 
-   wordpress:        
+   wordpress:
      links:
        - db
-     # depends_on:
-     #   - db
-     # ports:
-     #   - "3389:80"
-     # expose:
-     #   - "80"
      image: wordpress:latest
      restart: always
      network_mode: "bridge"
      volumes:
         - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
-        - ./wp-content:/var/www/html/wp-content
+        - ./wp_abc/wp-content:/var/www/html/wp-content
      environment:
        WORDPRESS_DB_HOST: db:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: wordpress
-       VIRTUAL_HOST: example.domain.com
-       LETSENCRYPT_HOST: example.domain.com
-       LETSENCRYPT_EMAIL: email@example.com
+       VIRTUAL_HOST: super.daxiangyingyu.com
+       LETSENCRYPT_HOST: super.daxiangyingyu.com
+       LETSENCRYPT_EMAIL: dale@139.com
 volumes:
     db_data:
